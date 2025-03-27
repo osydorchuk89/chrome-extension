@@ -1,0 +1,68 @@
+#app {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: auto;
+    padding: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.content-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.content-text {
+    font-size: 14px;
+    line-height: 150%;
+}
+
+.highlight-button,
+.unhighlight-button {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    align-self: center;
+    width: 180px;
+}
+
+.highlight-button {
+    background-color: #6b21a8;
+    color: white;
+}
+
+.highlight-button:hover {
+    background-color: #4c1d6a;
+}
+
+.highlight-button.loading {
+    background-color: #f5d0fe;
+    color: #4c1d6a;
+    cursor: not-allowed;
+}
+
+.unhighlight-button {
+    background-color: #92400e;
+    color: white;
+}
+
+.unhighlight-button:hover {
+    background-color: #451a03;
+}
+
+.content-error {
+    color: red;
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+}
