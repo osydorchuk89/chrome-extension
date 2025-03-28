@@ -55,7 +55,7 @@ const highlightKeywords = (
                     const span = document.createElement("span");
                     span.textContent = matches[0];
                     span.className = "highlighted-keyword";
-                    span.style.backgroundColor = "#fde68a";
+                    span.style.backgroundColor = "#bfdbfe";
                     span.style.borderRadius = "5px";
                     span.style.color = "black";
                     span.style.fontWeight = "bold";
@@ -126,15 +126,6 @@ const showPopup = (event: MouseEvent) => {
 
     // Append the popup to the body
     document.body.appendChild(tooltip);
-
-    // Prevent the popup from exceeding screen boundaries
-    const viewportHeight = window.innerHeight;
-    const popupRect = tooltip.getBoundingClientRect();
-
-    // Adjust if the popup goes out of screen on the bottom
-    if (popupRect.bottom > viewportHeight) {
-        tooltip.style.top = `${mouseY - popupRect.height - 10}px`;
-    }
 };
 
 const hidePopup = () => {
