@@ -5,10 +5,10 @@ chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
             sendResponse({ selectedText });
         } else if (message.type === "HIGHLIGHT_KEYWORDS") {
             highlightKeywords(message.keywords);
-            sendResponse({ success: true }); // Acknowledge completion
+            sendResponse({ success: true });
         } else if (message.type === "REMOVE_HIGHLIGHTS") {
             removeHighlights();
-            sendResponse({ success: true }); // Acknowledge completion
+            sendResponse({ success: true });
         } else {
             console.log("Unknown message type received:");
             sendResponse({ error: "Unknown message type" });
@@ -20,77 +20,6 @@ chrome.runtime.onMessage.addListener((message, _, sendResponse) => {
         return false;
     }
 });
-
-// const highlightKeywords = (
-//     keywords: { word: string; explanation: string }[]
-// ) => {
-//     if (keywords.length === 0) return;
-
-//     const selection = window.getSelection();
-//     if (!selection || selection.isCollapsed) return;
-
-//     const range = selection.getRangeAt(0);
-//     const contents = range.extractContents(); // Extract the selected contents
-
-//     keywords.forEach(({ word, explanation }) => {
-//         const regex = new RegExp(`\\b${word}\\b`, "gi");
-
-//         // Walk through each text node and replace matches with a <span> element
-//         const walker = document.createTreeWalker(
-//             contents,
-//             NodeFilter.SHOW_TEXT, // Only target text nodes
-//             null
-//         );
-
-//         while (walker.nextNode()) {
-//             const textNode = walker.currentNode as Text;
-
-//             // Avoid empty or null text nodes
-//             if (!textNode.textContent?.trim()) continue;
-
-//             // Find matches in the text node
-//             const matches = regex.exec(textNode.textContent);
-
-//             if (matches) {
-//                 const parent = textNode.parentNode;
-
-//                 if (parent) {
-//                     // Create a span for the keyword
-//                     const span = document.createElement("span");
-//                     span.textContent = matches[0];
-//                     span.className = "highlighted-keyword";
-//                     span.style.backgroundColor = "#f5d0fe";
-//                     span.style.borderRadius = "5px";
-//                     span.style.padding = "0 2px";
-//                     span.style.fontWeight = "bold";
-//                     span.style.color = "black";
-//                     span.style.cursor = "pointer";
-//                     span.setAttribute("data-explanation", explanation);
-
-//                     // Split the text node and insert the span
-//                     const splitNode = textNode.splitText(matches.index);
-//                     splitNode.textContent = (
-//                         splitNode.textContent || ""
-//                     ).substring(matches[0].length);
-
-//                     // Insert the <span> before the remaining text
-//                     parent.insertBefore(span, splitNode);
-
-//                     // Check and remove empty text nodes
-//                     if (!splitNode.textContent.trim()) {
-//                         parent.removeChild(splitNode);
-//                     }
-//                 }
-//             }
-//         }
-//     });
-
-//     // Insert the modified content back into the range
-//     range.insertNode(contents);
-
-//     // Add event listeners for tooltips
-//     addPopupListeners();
-// };
 
 const highlightKeywords = (
     keywords: { word: string; explanation: string }[]
@@ -114,53 +43,34 @@ const highlightKeywords = (
         );
 
         while (walker.nextNode()) {
-            let textNode = walker.currentNode as Text;
+            const textNode = walker.currentNode as Text;
 
-            // Avoid empty or null text nodes
-            if (!textNode.textContent?.trim()) continue;
+            const matches = regex.exec(textNode.textContent || "");
 
-            let match;
-            let remainingText = textNode.textContent;
-
-            // Process all matches in the text node
-            while ((match = regex.exec(remainingText)) !== null) {
+            if (matches) {
                 const parent = textNode.parentNode;
 
                 if (parent) {
                     // Create a span for the keyword
                     const span = document.createElement("span");
-                    span.textContent = match[0]; // Matched keyword
+                    span.textContent = matches[0];
                     span.className = "highlighted-keyword";
-                    span.style.backgroundColor = "#92400e";
+                    span.style.backgroundColor = "#fde68a";
                     span.style.borderRadius = "5px";
-                    span.style.padding = "0 2px";
-                    span.style.fontWeight = "bold";
                     span.style.color = "black";
+                    span.style.fontWeight = "bold";
+                    span.style.padding = "0 2px";
                     span.style.cursor = "pointer";
                     span.setAttribute("data-explanation", explanation);
 
-                    // Split the text node into three parts: before, match, and after
-                    const beforeMatch = remainingText.substring(0, match.index);
-                    const afterMatch = remainingText.substring(
-                        match.index + match[0].length
-                    );
+                    // Split the text node and insert the span
+                    const splitNode = textNode.splitText(matches.index);
+                    splitNode.textContent = (
+                        splitNode.textContent || ""
+                    ).substring(matches[0].length);
 
-                    // Create text nodes for the before/after segments
-                    const beforeTextNode = document.createTextNode(beforeMatch);
-                    const afterTextNode = document.createTextNode(afterMatch);
-
-                    // Insert the new nodes and the span
-                    parent.insertBefore(beforeTextNode, textNode);
-                    parent.insertBefore(span, textNode);
-                    parent.insertBefore(afterTextNode, textNode);
-
-                    // Remove the original text node
-                    parent.removeChild(textNode);
-
-                    // Update remainingText to process the after segment
-                    remainingText = afterMatch;
-                    regex.lastIndex = 0; // Reset regex for the remaining text
-                    textNode = afterTextNode; // Continue processing the after segment
+                    // Insert the <span> before the remaining text
+                    parent.insertBefore(span, splitNode);
                 }
             }
         }

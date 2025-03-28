@@ -1,54 +1,46 @@
-# React + TypeScript + Vite
+# Keywords Highlighter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This Chrome extension allows users to select text on a webpage, extract important keywords via Gemini API, and highlight them within the selected fragment. Hovering over a highlighted keyword displays a popup with its explanation. The extension also supports removing all highlights with a single click.
 
-Currently, two official plugins are available:
+## Installation Guide
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Step 1: Clone the repository
 
-## Expanding the ESLint configuration
+First, clone the codebase to your local machine:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+git clone https://github.com/<your-username>/<your-repository-name>.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Navigate to the project directory:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
 ```
+cd <your-repository-name>
+```
+
+## Step 2: Install dependencies
+
+Install the required dependencies:
+
+```
+npm install
+```
+
+## Step 3: Build the extension
+
+Build the extension files for deployment:
+
+```
+npm run build
+```
+
+This will create a `dist/` folder containing the files needed for the Chrome extension.
+
+## Step 4: Load the Extension in Chrome
+
+1. Open Google Chrome and navigate to `chrome://extensions/`
+2. Enable Developer Mode.
+3. Click `Load unpacked`.
+4. Select the `dist/` folder from your project directory.
+
+Your extension is now installed and ready to use!

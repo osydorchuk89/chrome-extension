@@ -12,7 +12,7 @@ export default function App() {
             active: true,
             currentWindow: true,
         });
-        // Step 1: Get selected text from the content script
+        // get selected text from the content script
         chrome.tabs.sendMessage(
             tab.id!,
             { type: "GET_SELECTED_TEXT" },
@@ -27,7 +27,7 @@ export default function App() {
                     }
                     setFetchingResponse(true);
                     setError(null);
-                    // Step 2: Send the text to Gemini API to extract keywords
+                    // send the text to Gemini API to extract keywords and their explanations
                     const result = await getKeywords(response.selectedText);
                     setFetchingResponse(false);
 
@@ -55,7 +55,7 @@ export default function App() {
 
     return (
         <div id="app">
-            <h1 className="title">Keywords extension</h1>
+            <h1 className="title">Keywords Highlighter</h1>
             <div className="content-section">
                 <p className="content-text">
                     This extension allows you to highlight keywords inside the
